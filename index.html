@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ari Safari</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="./image/myLogo.png" type="image/x-icon" />
+  </head>
+  <body class="">
+    <div id="app" class="flex flex-col items-center">
+      <!-- Halaman utama -->
+      <div
+        v-if="!isStart"
+        class="h-screen flex flex-col items-center justify-center text-center space-y-4 mx-6"
+      >
+        <a
+          target="_blank"
+          href="https://www.vecteezy.com/free-vector/badminton"
+          class="text-xs flex justify-center"
+        >
+          <img
+            src="./image/header.png"
+            alt="Badminton Vectors by Vecteezy"
+            title="Badminton Vectors by Vecteezy"
+            class="w-4/5"
+          />
+        </a>
+        <h1>Mini App untuk hitung patungan Kok Badminton 🏸</h1>
+
+        <button
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          @click="startTheGame"
+        >
+          Mulai Latihan Badminton
+        </button>
+      </div>
+
+      <!-- Mini App Hitungan -->
+      <div v-else class="space-y-4 flex flex-col mt-4">
+        <div
+          id="toast-warning"
+          class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+          role="alert"
+        >
+          <div
+            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-700 dark:text-green-200"
+          >
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+            </svg>
+            <span class="sr-only">Check icon</span>
+          </div>
+          <div class="ms-3 text-sm font-normal">
+            Semangat Bertanding, dan semangat !!!
+          </div>
+          <button
+            type="button"
+            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            data-dismiss-target="#toast-warning"
+            aria-label="Close"
+          >
+            <span class="sr-only">Close</span>
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <section>
+          <button
+            type="button"
+            v-if="!isShowAddPlayer"
+            @click="openAddPlayerForm"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center"
+          >
+            <img src="./image/user-add.svg" alt="logo-user-add" />
+            Tambah Pemain
+          </button>
+
+          <form @submit.prevent="addPlayer" class="flex gap-2" v-else>
+            <input
+              type="text"
+              v-model="newPlayerName"
+              placeholder="Masukan nama pemain"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center"
+            >
+              Add
+            </button>
+          </form>
+        </section>
+
+        <section>
+          <ul>
+            <li
+              class="flex items-center justify-between h-14 p-4 mb-2 rounded-lg disabled:cursor-not-allowed"
+              :class="{
+                'bg-blue-50': player.isLunas == false,
+                'bg-green-500': player.isLunas == true,
+              }"
+              v-for="player in players"
+              :key="player.id"
+              
+            >
+              <p class="font-medium flex gap-2">
+                <span>
+                  <button 
+                    @click="removePlayer(player)"
+                    :disabled="player.isLunas == true"
+                    >
+                    <img src="./image/trash.svg" alt="icon-trash" />
+                  </button>
+                </span>
+                {{player.name.toUpperCase()}}
+              </p>
+              <div class="flex gap-4">
+                <div class="flex gap-2 font-medium">
+                  <button
+                    @click="player.qtyCock--"
+                    :disabled="player.qtyCock < 1 || player.isLunas == true"
+                  >
+                    <img
+                      src="./image/minus-square.svg"
+                      alt="icon-minus-square"
+                    />
+                  </button>
+                  <p>{{player.qtyCock}}</p>
+                  <button
+                    @click="player.qtyCock++"
+                    :disabled="player.isLunas == true"
+                  >
+                    <img src="./image/add-square.svg" alt="icon-minus-square" />
+                  </button>
+                </div>
+                <button
+                  @click="player.isLunas = true"
+                  :disabled="player.isLunas == true"
+                  class="text-xs px-2 py-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                >
+                  {{player.isLunas ? 'Lunas' : 'Bayar'}}
+                </button>
+              </div>
+            </li>
+          </ul>
+
+          <button
+            type="button"
+            v-if="isAllLunas"
+            @click="endTheGame"
+            class="w-full mt-4 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800 flex gap-2 items-center justify-center"
+          >
+            <img src="./image/tick-square.svg" alt="icon-tick" />
+            {{ players.length ? 'Selesai' : 'Kembali' }}
+          </button>
+        </section>
+      </div>
+    </div>
+
+    <script type="module">
+      // import App from 'script/App.js'
+
+      const App = {
+        data() {
+          return {
+            isStart: false,
+            isEnd: false,
+            isShowAddPlayer: false,
+            newPlayerName: "",
+            players: [
+              { id: 1, name: "Puad", qtyCock: 0, isLunas: false },
+              { id: 2, name: "Asten", qtyCock: 0, isLunas: false },
+            ],
+          };
+        },
+
+        watch: {
+          players: {
+            handler() {
+              localStorage.setItem("players", JSON.stringify(this.players));
+            },
+            deep: true,
+          },
+        },
+
+        mounted() {
+          const storage = localStorage.getItem("players");
+          if (storage) {
+            this.players = JSON.parse(storage);
+          }
+
+        },
+
+        methods: {
+          startTheGame() {
+            this.isStart = !this.isStart;
+          },
+
+          endTheGame() {
+            this.isStart = !this.isStart;
+            this.players = [];
+          },
+
+          openAddPlayerForm() {
+            this.isShowAddPlayer = !this.isShowAddPlayer;
+          },
+
+          addPlayer() {
+            if (this.newPlayerName.trim() === '' || this.newPlayerName.trim() === null) {
+              this.isShowAddPlayer = false;
+              this.newPlayerName = "";
+              return;
+            }
+              this.players.push({
+              id: this.players.length + 1,
+              name: this.newPlayerName,
+              qtyCock: 0,
+              isLunas: false,
+            });
+              this.newPlayerName = "";
+              this.isShowAddPlayer = false;
+            },
+
+            removePlayer(player) {
+              this.players = this.players.filter((p) => p !== player);
+            },
+          },  
+
+          computed: {
+            isAllLunas () {
+              return this.players.every((player) => player.isLunas == true)
+            },
+          }  
+      };
+
+      Vue.createApp(App).mount("#app");
+    </script>
+  </body>
+</html>
