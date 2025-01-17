@@ -9,11 +9,11 @@
     <link rel="shortcut icon" href="./image/myLogo.png" type="image/x-icon" />
   </head>
   <body class="">
-    <div id="app" class="flex flex-col items-center">
+    <div id="app" class="flex flex-col items-center m-4">
       <!-- Halaman utama -->
       <div
         v-if="!isStart"
-        class="h-screen flex flex-col items-center justify-center text-center space-y-4 mx-6"
+        class="h-screen flex flex-col items-center justify-center text-center space-y-4"
       >
         <a
           target="_blank"
@@ -27,7 +27,7 @@
             class="w-4/5"
           />
         </a>
-        <h1>Mini App untuk hitung patungan Kok Badminton 🏸</h1>
+        <h1>Mini App untuk hitung patungan Kok Badminton</h1>
 
         <button
           type="button"
@@ -39,7 +39,7 @@
       </div>
 
       <!-- Mini App Hitungan -->
-      <div v-else class="space-y-4 flex flex-col mt-4">
+      <div v-else class="space-y-4 flex flex-col m-4 w-full">
         <div
           id="toast-warning"
           class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
@@ -48,13 +48,21 @@
           <div
             class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-700 dark:text-green-200"
           >
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+            <svg
+              class="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+              />
             </svg>
             <span class="sr-only">Check icon</span>
           </div>
           <div class="ms-3 text-sm font-normal">
-            Semangat Bertanding, dan semangat !!!
+            Salam Olahraga dan semangat !!!
           </div>
           <button
             type="button"
@@ -82,15 +90,40 @@
         </div>
 
         <section>
-          <button
-            type="button"
-            v-if="!isShowAddPlayer"
-            @click="openAddPlayerForm"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center"
-          >
-            <img src="./image/user-add.svg" alt="logo-user-add" />
-            Tambah Pemain
-          </button>
+          <div class="flex justify-between" v-if="!isShowAddPlayer">
+            <a
+              type="button"
+              class="flex items-center underline underline-offset-1 text-blue-500"
+              @click="backToHome"
+            >
+              <svg
+                class="w-6 h-6 dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m15 19-7-7 7-7"
+                />
+              </svg>
+              Kembali
+            </a>
+            <button
+              type="button"
+              @click="openAddPlayerForm"
+              class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center"
+            >
+              <img src="./image/user-add.svg" alt="logo-user-add" />
+              Tambah Pemain
+            </button>
+          </div>
 
           <form @submit.prevent="addPlayer" class="flex gap-2" v-else>
             <input
@@ -111,29 +144,36 @@
         <section>
           <ul>
             <li
-              class="flex items-center justify-between h-14 p-4 mb-2 rounded-lg disabled:cursor-not-allowed"
+              class="flex items-center justify-between p-4 mb-2 rounded-lg disabled:cursor-not-allowed"
               :class="{
                 'bg-blue-50': player.isLunas == false,
                 'bg-green-500': player.isLunas == true,
               }"
               v-for="player in players"
               :key="player.id"
-              
             >
-              <p class="font-medium flex gap-2">
-                <span>
-                  <button 
-                    @click="removePlayer(player)"
-                    :disabled="player.isLunas == true"
-                    >
-                    <img src="./image/trash.svg" alt="icon-trash" />
-                  </button>
-                </span>
-                {{player.name.toUpperCase()}}
-              </p>
-              <div class="flex gap-4">
-                <div class="flex gap-2 font-medium">
+              <div class="flex gap-2">
+                <button
+                  class="min-w-6 flex justify-center items-center"
+                  @click="removePlayer(player)"
+                  :disabled="player.isLunas == true"
+                >
+                  <img src="./image/trash.svg" alt="icon-trash" />
+                </button>
+                <p class="font-medium">{{player.name.toUpperCase()}}</p>
+              </div>
+
+              <div class="flex gap-4 h-8 ml-2">
+                <button
+                  class="text-xs px-2 py-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  @click="player.isLunas = true"
+                  :disabled="player.isLunas == true"
+                >
+                  {{player.isLunas ? 'Lunas' : 'Bayar'}}
+                </button>
+                <div class="flex gap-2 font-medium items-center justify-center">
                   <button
+                    class="w-8 flex justify-center items-center"
                     @click="player.qtyCock--"
                     :disabled="player.qtyCock < 1 || player.isLunas == true"
                   >
@@ -144,19 +184,13 @@
                   </button>
                   <p>{{player.qtyCock}}</p>
                   <button
+                    class="w-8 flex justify-center items-center"
                     @click="player.qtyCock++"
                     :disabled="player.isLunas == true"
                   >
                     <img src="./image/add-square.svg" alt="icon-minus-square" />
                   </button>
                 </div>
-                <button
-                  @click="player.isLunas = true"
-                  :disabled="player.isLunas == true"
-                  class="text-xs px-2 py-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                >
-                  {{player.isLunas ? 'Lunas' : 'Bayar'}}
-                </button>
               </div>
             </li>
           </ul>
@@ -205,11 +239,14 @@
           if (storage) {
             this.players = JSON.parse(storage);
           }
-
         },
 
         methods: {
           startTheGame() {
+            this.isStart = !this.isStart;
+          },
+
+          backToHome() {
             this.isStart = !this.isStart;
           },
 
@@ -223,31 +260,34 @@
           },
 
           addPlayer() {
-            if (this.newPlayerName.trim() === '' || this.newPlayerName.trim() === null) {
+            if (
+              this.newPlayerName.trim() === "" ||
+              this.newPlayerName.trim() === null
+            ) {
               this.isShowAddPlayer = false;
               this.newPlayerName = "";
               return;
             }
-              this.players.push({
+            this.players.push({
               id: this.players.length + 1,
               name: this.newPlayerName,
               qtyCock: 0,
               isLunas: false,
             });
-              this.newPlayerName = "";
-              this.isShowAddPlayer = false;
-            },
+            this.newPlayerName = "";
+            this.isShowAddPlayer = false;
+          },
 
-            removePlayer(player) {
-              this.players = this.players.filter((p) => p !== player);
-            },
-          },  
+          removePlayer(player) {
+            this.players = this.players.filter((p) => p !== player);
+          },
+        },
 
-          computed: {
-            isAllLunas () {
-              return this.players.every((player) => player.isLunas == true)
-            },
-          }  
+        computed: {
+          isAllLunas() {
+            return this.players.every((player) => player.isLunas == true);
+          },
+        },
       };
 
       Vue.createApp(App).mount("#app");
