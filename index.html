@@ -182,14 +182,16 @@
                 >
                   <img src="./image/trash.svg" alt="icon-trash" />
                 </button>
-                <p class="font-medium">
-                  {{player.id}}. {{player.name.toUpperCase()}}
-                </p>
+                <p class="font-medium">{{player.name.toUpperCase()}}</p>
               </div>
 
               <div class="flex gap-4 h-8 ml-2">
                 <button
-                  class="text-xs px-2 py-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  class="text-xs px-2 py-1 font-medium rounded focus:ring-4"
+                  :class="{
+                    'text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300  dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800': player.isLunas == true,
+                    'bg-transparent outline outline-2 outline-blue-600 focus:outline-blue-500' : player.isLunas == false
+                  }"
                   @click="player.isLunas = true"
                   :disabled="player.isLunas == true"
                 >
