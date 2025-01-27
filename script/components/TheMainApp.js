@@ -37,6 +37,7 @@ export default {
             @emitRemovePlayer="removePlayer"
           />
         </ul>
+      </section>
 
         <button
           type="button"
@@ -47,7 +48,6 @@ export default {
           <img src="./image/tick-square.svg" alt="icon-tick" />
           {{ players.length ? 'Selesai' : 'Kembali' }}
         </button>
-      </section>
     </div>
   `,
 

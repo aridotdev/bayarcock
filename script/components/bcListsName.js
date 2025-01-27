@@ -3,7 +3,7 @@ export default {
     <div class="flex gap-2 items-center">
       <button
         @click="toggleMenu"
-        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-2 focus:outline-none dark:text-white focus:ring-gray-500 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-2 focus:outline-none dark:text-white focus:ring-green-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         type="button"
       >
         <svg
