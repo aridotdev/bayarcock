@@ -1,4 +1,7 @@
+import bcListsName from "./bcListsName.js"
+
 export default {
+  components: {bcListsName},
   template: /*html*/`
     <li
       class="p-4 mb-2 rounded-lg disabled:cursor-not-allowed relative"
@@ -9,27 +12,11 @@ export default {
     >
       <div class="flex items-center justify-between">
         <!-- left div -->
-        <div class="flex gap-2 items-center">
-          <button
-            @click="player.menuIsHidden = !player.menuIsHidden"
-            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            type="button"
-          >
-            <svg
-              class="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 4 15"
-            >
-              <path
-                d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"
-              />
-            </svg>
-          </button>
+        <bcListsName 
+          :player
+          @emitToggleMenu = "player.menuIsHidden = !player.menuIsHidden"
+        />
 
-          <p class="font-medium">{{player.name.toUpperCase()}}</p>
-        </div>
         <!-- right div -->
         <div class="flex gap-4 h-8 ml-2">
           <button
@@ -86,7 +73,7 @@ export default {
               <a
                 href="#"
                 class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                @click="player.isLunas = false"
+                @click="edit()"
               >
                 <img src="./image/icon_edit.svg" alt="icon-edit" />
                 Edit</a
@@ -128,6 +115,12 @@ export default {
   methods:{
     removePlayer() {
       this.$emit('emitRemovePlayer', this.player)
+      this.player.menuIsHidden = true
+    },
+
+    edit() {
+      this.player.isLunas = false
+      this.player.menuIsHidden = true
     }
   }
 }
