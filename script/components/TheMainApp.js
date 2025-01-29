@@ -2,9 +2,10 @@ import bcToast from './bcToast.js';
 import bcStatistic from './bcStatistic.js';
 import bcTopMenu from './bcTopMenu.js';
 import bcLists from './bcLists.js';
+import bcBtnRecap from './bcBtnRecap.js';
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists },
+  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcBtnRecap },
   template: /*html*/`
       <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
@@ -40,15 +41,10 @@ export default {
       </section>
 
       <!-- Rekap Button -->
-      <button
-        type="button"
+      <bcBtnRecap
         v-if="isAllLunas"
         @click="showRecap"
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center justify-center"
-      >
-        <img src="./image/icon-receipt.svg" alt="icon-receipt" />
-        Rekap
-      </button>
+      />
 
       <!-- Rekap Data -->
       <section v-if="isShowRecap" class="p-4 bg-blue-50 rounded">
@@ -75,7 +71,7 @@ export default {
                   required
                   type="number"
                   input-mode="numeric"
-                  v-model="expense.buyCock"
+                  v-model="buyCock"
                   placeholder="Pembelian Suttlecock"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
@@ -87,7 +83,7 @@ export default {
                   required
                   type="number"
                   input-mode="numeric"
-                  v-model="expense.payCourt"
+                  v-model="payCourt"
                   placeholder="Bayar member lapangan"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
@@ -177,10 +173,8 @@ export default {
       isShowToast: true,
       isShowRecap: false,
       cockPricePerPiece: 5000,
-      expense: {
-        buyCock : 0,
-        payCourt : 0
-      },
+      buyCock : 0,
+      payCourt : 0,
       players: [
         {
           id: 1,
