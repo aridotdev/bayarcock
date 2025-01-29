@@ -13,7 +13,7 @@ export default {
 
     <TheMainApp 
       v-else
-      @emitbackToHome="startTheGame()" />
+      @emitbackToHome="startTheGame" />
   `,
 
   data() {

@@ -2,11 +2,11 @@ import bcToast from './bcToast.js';
 import bcStatistic from './bcStatistic.js';
 import bcTopMenu from './bcTopMenu.js';
 import bcLists from './bcLists.js';
-import bcBtnRecap from './bcBtnRecap.js';
-import bcInputData from './bcInputData.js';
+import bcRecapBtn from './bcRecapBtn.js';
+import bcRecapInputData from './bcRecapInputData.js';
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcBtnRecap, bcInputData },
+  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData },
   template: /*html*/`
       <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
@@ -42,17 +42,17 @@ export default {
       </section>
 
       <!-- Rekap Button -->
-      <bcBtnRecap
+      <bcRecapBtn
         v-if="isAllLunas"
         @click="showRecap"
       />
 
       <!-- Additional Input Data -->
-      <bcInputData 
+      <bcRecapInputData 
         v-if="isShowRecap"
-        v-model:cockPricePerPiece="cockPricePerPiece"
-        v-model:buyCock="buyCock"
-        v-model:payCourt="payCourt"
+        v-model:cockPricePerPiece="amounts.cockPricePerPiece"
+        v-model:buyCock="amounts.buyCock"
+        v-model:payCourt="amounts.payCourt"
         @emitsetInputData="setInputData"
       />
 
@@ -125,9 +125,12 @@ export default {
       isEnd: false,
       isShowToast: true,
       isShowRecap: false,
-      cockPricePerPiece: 5000,
-      buyCock : 0,
-      payCourt : 0,
+      isShowRangkuman: false,
+      amounts:{
+        cockPricePerPiece: 5000,
+        buyCock : 0,
+        payCourt : 0,
+      },
       players: [
         {
           id: 1,
@@ -156,13 +159,27 @@ export default {
       },
       deep: true,
     },
+    amounts: {
+      handler() {
+        localStorage.setItem("amounts", JSON.stringify(this.amounts));
+      },
+      deep: true,
+    },
+
   },
 
   mounted() {
-    const storage = localStorage.getItem("players");
-    if (storage) {
-      this.players = JSON.parse(storage);
+    const storagePlayer = localStorage.getItem("players");
+    const storageAmount = localStorage.getItem("amounts");
+
+    if (storagePlayer) {
+      this.players = JSON.parse(storagePlayer);
     }
+    
+    if (storageAmount) {
+      this.amounts = JSON.parse(storageAmount);
+    }
+    
   },
 
   methods: {
