@@ -131,8 +131,13 @@ export default {
     },
 
     endTheGame() {
-      this.isStart = !this.isStart;
       this.players = [];
+      this.amounts.cockPricePerPiece = 0
+      this.amounts.buyCock = 0
+      this.amounts.payCourt = 0
+      this.isShowRecap = false
+      localStorage.clear()
+      this.$emit('endTheGame')
     },
 
     addPlayer(newPlayerName) {
@@ -168,6 +173,9 @@ export default {
 
   computed: {
     isAllLunas() {
+      if(this.players == null || this.players == 0) {
+        return false
+      }
       return this.players.every((player) => player.isLunas == true);
     },
 
