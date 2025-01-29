@@ -86,28 +86,11 @@ export default {
       isShowRecap: false,
       isShowRangkuman: false,
       amounts:{
-        cockPricePerPiece: 5000,
+        cockPricePerPiece: 0,
         buyCock : 0,
         payCourt : 0,
       },
-      players: [
-        {
-          id: 1,
-          name: "Puad",
-          qtyCock: 0,
-          isLunas: false,
-          menuIsHidden: true,
-          extraCash: 0,
-        },
-        {
-          id: 2,
-          name: "Asten",
-          qtyCock: 0,
-          isLunas: false,
-          menuIsHidden: true,
-          extraCash: 0,
-        },
-      ],
+      players: [],
     }
   },
 
