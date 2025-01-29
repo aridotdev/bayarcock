@@ -4,9 +4,10 @@ import bcTopMenu from './bcTopMenu.js';
 import bcLists from './bcLists.js';
 import bcRecapBtn from './bcRecapBtn.js';
 import bcRecapInputData from './bcRecapInputData.js';
+import bcSummary from './bcSummary.js';
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData },
+  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData, bcSummary },
   template: /*html*/`
       <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
@@ -57,52 +58,10 @@ export default {
       />
 
       <!--  Rangkuman Dana -->
-      <section class="p-4 bg-blue-50 rounded">
-        <div class="space-y-6">
-          <h3 class="font-bold text-xl">Rangkuman</h3>
-          <div>
-            <h4 class="font-bold">Pemasukan</h4>
-            <ul class="border rounded-md p-4">
-              <li class="flex justify-between">
-                <p>Pemain :</p>
-                <p>10 Orang</p>
-              </li>
-              <li class="flex justify-between">
-                <p>Iuran Pemain :</p>
-                <p>Rp. 200.000</p>
-              </li>
-              <li class="flex justify-between">
-                <p>Donasi :</p>
-                <p>Rp. 50.000</p>
-              </li>
-              <hr class="my-2">
-              <li class="flex justify-between font-semibold">
-                <p>TOTAL :</p>
-                <p>Rp. 250.000</p>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 class="font-bold">Pengeluaran</h4>
-            <ul class="border rounded-md p-4">
-              <li class="flex justify-between">
-                <p>Beli Cock :</p>
-                <p>Rp. 120.000</p>
-              </li>
-              <li class="flex justify-between">
-                <p>Member Lapangan :</p>
-                <p>Rp. 240.000</p>
-              </li>
-              <hr class="my-2">
-              <li class="flex justify-between font-semibold">
-                <p>TOTAL :</p>
-                <p>Rp. 360.000</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>  
+        <bcSummary 
+          v-if="isShowRangkuman"
+          :summary
+        />
 
       <button
         type="button"
@@ -215,11 +174,12 @@ export default {
 
     showRecap() {
       this.isShowRecap = !this.isShowRecap
+      this.isShowRangkuman = false
     },
 
     setInputData() {
       this.isShowRecap = false
-      console.log('tampilkan div ringkasan')
+      this.isShowRangkuman = !this.isShowRangkuman
     }
   },
 
@@ -240,5 +200,34 @@ export default {
         return 0;
       }
     },
+
+    totalDonasi() {
+      let extraDonasi = this.players.map((donasi) => donasi.extraCash);
+      if (extraDonasi.length) {
+        return Number(extraDonasi.reduce((acc, curr) => acc + curr));
+      } else {
+        return 0;
+      }
+    },
+
+    totalIncome(){
+      return Number((this.totalCock * this.amounts.cockPricePerPiece) + this.totalDonasi )
+    },
+
+    totalExpense(){
+      return Number(this.amounts.buyCock) + Number(this.amounts.payCourt)
+    },
+
+    summary() {
+      return {
+        'players': Number(this.totalPlayer),
+        'amountCock': Number(this.totalCock) * Number(this.amounts.cockPricePerPiece),
+        'donasi': Number(this.totalDonasi),
+        'totalIncome': Number(this.totalIncome),
+        'buyCock': Number(this.amounts.buyCock),
+        'payCourt': Number(this.amounts.payCourt),
+        'totalExpense': Number(this.totalExpense)
+      }
+    }
   },
 }

@@ -21,7 +21,7 @@ export default {
             <label class="flex items-center gap-2 grow">
               Donasi
               <input
-                type="text"
+                type="number"
                 :disabled="player.isLunas == true"
                 v-model="player.extraCash"
                 placeholder="Tambahan"
