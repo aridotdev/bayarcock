@@ -3,9 +3,10 @@ import bcStatistic from './bcStatistic.js';
 import bcTopMenu from './bcTopMenu.js';
 import bcLists from './bcLists.js';
 import bcBtnRecap from './bcBtnRecap.js';
+import bcInputData from './bcInputData.js';
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcBtnRecap },
+  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcBtnRecap, bcInputData },
   template: /*html*/`
       <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
@@ -46,62 +47,14 @@ export default {
         @click="showRecap"
       />
 
-      <!-- Rekap Data -->
-      <section v-if="isShowRecap" class="p-4 bg-blue-50 rounded">
-        <div class="space-y-2">
-          <form class="space-y-2">
-              <h3 class="font-bold">Input Data</h3>
-              <div class="">
-                <label class="" for="cockperpcs">Iuran Cock Satuan (Rp)</label>
-                <input
-                  ref="cockperpcs"
-                  id="cockperpcs"
-                  required
-                  type="number"
-                  input-mode="numeric"
-                  v-model="cockPricePerPiece"
-                  placeholder="Harga Cock Satuan"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
-              <div class="">
-                <label class="" for="buycock">Beli Cock (Rp)</label>
-                <input
-                  id="buycock"
-                  required
-                  type="number"
-                  input-mode="numeric"
-                  v-model="buyCock"
-                  placeholder="Pembelian Suttlecock"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
-              <div class="">
-                <label class="" for="paycourt">Sewa Lapang (Rp)</label>
-                <input
-                  id="paycourt"
-                  required
-                  type="number"
-                  input-mode="numeric"
-                  v-model="payCourt"
-                  placeholder="Bayar member lapangan"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </div>
-
-              <div class="">
-                <button
-                type="submit"
-                @click.prevent="setInputData()"
-                class="w-full flex gap-2 items-center justify-center text-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                >
-                  <img src="./image/tick-square.svg" alt="icon-tick" />
-                  Tetapkan
-                </button>
-              </div>
-            </form>
-        </div>
-      </section>
+      <!-- Additional Input Data -->
+      <bcInputData 
+        v-if="isShowRecap"
+        v-model:cockPricePerPiece="cockPricePerPiece"
+        v-model:buyCock="buyCock"
+        v-model:payCourt="payCourt"
+        @emitsetInputData="setInputData"
+      />
 
       <!--  Rangkuman Dana -->
       <section class="p-4 bg-blue-50 rounded">
@@ -248,11 +201,6 @@ export default {
     },
 
     setInputData() {
-      if(this.cockPricePerPiece == 0 || this.cockPricePerPiece == null) {
-        alert('Iuran Cock Satuan Kosong, Silahkan di isi nominalnya')
-        this.$refs.cockperpcs.focus()
-        return
-      } 
       this.isShowRecap = false
       console.log('tampilkan div ringkasan')
     }
