@@ -9,7 +9,7 @@ export default {
     
     <TheWelcome
       v-if="!isStart"
-      @emitStartTheGame="startTheGame" 
+      @emitStartTheGame="startTheGame"
     />
 
     <TheMainApp 
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       isStart: false,
+      players: 0
     };
   },
 

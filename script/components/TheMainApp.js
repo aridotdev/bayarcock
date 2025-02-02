@@ -67,23 +67,23 @@ export default {
         
       <button
         type="button"
-        v-if="isAllLunas"
+        v-if="isShowRangkuman"
         @click="isShowModal = !isShowModal"
-        class="w-full mt-4 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800 flex gap-2 items-center justify-center"
+        class="w-full mt-4 mb-8 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800 flex gap-2 items-center justify-center"
       >
         <img src="./image/tick-square.svg" alt="icon-tick" />
         {{ players.length ? 'Selesai' : 'Kembali' }}
       </button>
 
+      <Teleport to="#modal">
+        <modal 
+          v-if="isShowModal"
+          @emitExit="endTheGame"
+          @emitCancel="cancel"
+          ></modal>
+      </Teleport>
     </div>
 
-    <Teleport to="#modal">
-      <modal 
-        v-if="isShowModal"
-        @emitExit="endTheGame"
-        @emitCancel="cancel"
-        ></modal>
-    </Teleport>
     
   `,
 
@@ -133,6 +133,10 @@ export default {
     
     if (storageAmount) {
       this.amounts = JSON.parse(storageAmount);
+    }
+
+    if (this.players) {
+      this.$emit('emitPlayers', this.players.length)
     }
     
   },
