@@ -5,13 +5,15 @@ import bcLists from './bcLists.js';
 import bcRecapBtn from './bcRecapBtn.js';
 import bcRecapInputData from './bcRecapInputData.js';
 import bcSummary from './bcSummary.js';
+import modal from './modal.js';
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData, bcSummary },
+  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData, bcSummary, modal },
   template: /*html*/`
-      <!-- Mini App Hitungan -->
+    
+    <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
-      
+
       <!-- toast informasi -->
       <bcToast 
         v-if="isShowToast"
@@ -62,17 +64,27 @@ export default {
           v-if="isShowRangkuman"
           :summary
         />
-
+        
       <button
         type="button"
         v-if="isAllLunas"
-        @click="endTheGame"
+        @click="isShowModal = !isShowModal"
         class="w-full mt-4 text-white bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-md text-sm px-5 py-2.5 dark:bg-orange-600 dark:hover:bg-orange-700 focus:outline-none dark:focus:ring-orange-800 flex gap-2 items-center justify-center"
       >
         <img src="./image/tick-square.svg" alt="icon-tick" />
         {{ players.length ? 'Selesai' : 'Kembali' }}
       </button>
+
     </div>
+
+    <Teleport to="#modal">
+      <modal 
+        v-if="isShowModal"
+        @emitExit="endTheGame"
+        @emitCancel="cancel"
+        ></modal>
+    </Teleport>
+    
   `,
 
   props:{
@@ -85,6 +97,7 @@ export default {
       isShowToast: true,
       isShowRecap: false,
       isShowRangkuman: false,
+      isShowModal: false,
       amounts:{
         cockPricePerPiece: 0,
         buyCock : 0,
@@ -168,7 +181,11 @@ export default {
     setInputData() {
       this.isShowRecap = false
       this.isShowRangkuman = !this.isShowRangkuman
-    }
+    },
+
+    cancel() {
+      this.isShowModal = false;
+    },
   },
 
   computed: {

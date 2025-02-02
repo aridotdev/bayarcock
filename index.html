@@ -8,15 +8,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="./image/myLogo.png" type="image/x-icon" />
   </head>
-  <body class="">
-    <div id="app" class="flex flex-col items-center m-4">
-      
-    </div>
-
-    <script type="module">
-      import App from './script/App.js'
-      
-      Vue.createApp(App).mount("#app");
-    </script>
+  <body class="h-full">
+    <div id="app" class="flex flex-col items-center m-4 h-full"></div>
+    <div id="modal"></div>  
+      <script type="module">
+        import App from './script/App.js'
+        
+        Vue.createApp(App).mount("#app");
+      </script>
   </body>
 </html>

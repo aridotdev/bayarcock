@@ -1,9 +1,10 @@
 import TheWelcome from "./TheWelcome.js";
 import TheMainApp from "./TheMainApp.js";
+import modal from "./modal.js";
 
 
 export default {
-  components: { TheWelcome, TheMainApp },
+  components: { TheWelcome, TheMainApp, modal },
   template: /*html*/`
     
     <TheWelcome
@@ -12,10 +13,12 @@ export default {
     />
 
     <TheMainApp 
-      v-else
+      v-if="isStart"
       @emitbackToHome="startTheGame" 
       @endTheGame="startTheGame"
-      />
+    />
+
+    
   `,
 
   data() {
