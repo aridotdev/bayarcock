@@ -1,15 +1,24 @@
-import bcToast from './bcToast.js';
-import bcStatistic from './bcStatistic.js';
-import bcTopMenu from './bcTopMenu.js';
-import bcLists from './bcLists.js';
-import bcRecapBtn from './bcRecapBtn.js';
-import bcRecapInputData from './bcRecapInputData.js';
-import bcSummary from './bcSummary.js';
-import modal from './modal.js';
+import bcToast from "./bcToast.js";
+import bcStatistic from "./bcStatistic.js";
+import bcTopMenu from "./bcTopMenu.js";
+import bcLists from "./bcLists.js";
+import bcRecapBtn from "./bcRecapBtn.js";
+import bcRecapInputData from "./bcRecapInputData.js";
+import bcSummary from "./bcSummary.js";
+import modal from "./modal.js";
 
 export default {
-  components: { bcToast, bcStatistic, bcTopMenu, bcLists, bcRecapBtn, bcRecapInputData, bcSummary, modal },
-  template: /*html*/`
+  components: {
+    bcToast,
+    bcStatistic,
+    bcTopMenu,
+    bcLists,
+    bcRecapBtn,
+    bcRecapInputData,
+    bcSummary,
+    modal,
+  },
+  template: /*html*/ `
     
     <!-- Mini App Hitungan -->
     <div class="space-y-4 flex flex-col m-4 w-full">
@@ -48,6 +57,7 @@ export default {
       <bcRecapBtn
         v-if="isAllLunas"
         @click="showRecap"
+        :label="isShowRangkuman ? 'Edit' : 'Rekap'"
       />
 
       <!-- Additional Input Data -->
@@ -87,8 +97,8 @@ export default {
     
   `,
 
-  props:{
-    isStart: Boolean
+  props: {
+    isStart: Boolean,
   },
 
   data() {
@@ -98,13 +108,13 @@ export default {
       isShowRecap: false,
       isShowRangkuman: false,
       isShowModal: false,
-      amounts:{
+      amounts: {
         cockPricePerPiece: 0,
-        buyCock : 0,
-        payCourt : 0,
+        buyCock: 0,
+        payCourt: 0,
       },
       players: [],
-    }
+    };
   },
 
   watch: {
@@ -120,7 +130,6 @@ export default {
       },
       deep: true,
     },
-
   },
 
   mounted() {
@@ -130,31 +139,30 @@ export default {
     if (storagePlayer) {
       this.players = JSON.parse(storagePlayer);
     }
-    
+
     if (storageAmount) {
       this.amounts = JSON.parse(storageAmount);
     }
 
     if (this.players) {
-      this.$emit('emitPlayers', this.players.length)
+      this.$emit("emitPlayers", this.players.length);
     }
-    
   },
 
   methods: {
     backToHome() {
-      this.$emit('emitbackToHome')
+      this.$emit("emitbackToHome");
       this.isShowToast = !this.isShowToast;
     },
 
     endTheGame() {
       this.players = [];
-      this.amounts.cockPricePerPiece = 0
-      this.amounts.buyCock = 0
-      this.amounts.payCourt = 0
-      this.isShowRecap = false
-      localStorage.clear()
-      this.$emit('endTheGame')
+      this.amounts.cockPricePerPiece = 0;
+      this.amounts.buyCock = 0;
+      this.amounts.payCourt = 0;
+      this.isShowRecap = false;
+      localStorage.clear();
+      this.$emit("endTheGame");
     },
 
     addPlayer(newPlayerName) {
@@ -174,17 +182,17 @@ export default {
     },
 
     closeToast() {
-      this.isShowToast = false
+      this.isShowToast = false;
     },
 
     showRecap() {
-      this.isShowRecap = !this.isShowRecap
-      this.isShowRangkuman = false
+      this.isShowRecap = !this.isShowRecap;
+      this.isShowRangkuman = false;
     },
 
     setInputData() {
-      this.isShowRecap = false
-      this.isShowRangkuman = !this.isShowRangkuman
+      this.isShowRecap = false;
+      this.isShowRangkuman = !this.isShowRangkuman;
     },
 
     cancel() {
@@ -194,8 +202,8 @@ export default {
 
   computed: {
     isAllLunas() {
-      if(this.players == null || this.players == 0) {
-        return false
+      if (this.players == null || this.players == 0) {
+        return false;
       }
       return this.players.every((player) => player.isLunas == true);
     },
@@ -222,24 +230,27 @@ export default {
       }
     },
 
-    totalIncome(){
-      return Number((this.totalCock * this.amounts.cockPricePerPiece) + this.totalDonasi )
+    totalIncome() {
+      return Number(
+        this.totalCock * this.amounts.cockPricePerPiece + this.totalDonasi
+      );
     },
 
-    totalExpense(){
-      return Number(this.amounts.buyCock) + Number(this.amounts.payCourt)
+    totalExpense() {
+      return Number(this.amounts.buyCock) + Number(this.amounts.payCourt);
     },
 
     summary() {
       return {
-        'players': Number(this.totalPlayer),
-        'amountCock': Number(this.totalCock) * Number(this.amounts.cockPricePerPiece),
-        'donasi': Number(this.totalDonasi),
-        'totalIncome': Number(this.totalIncome),
-        'buyCock': Number(this.amounts.buyCock),
-        'payCourt': Number(this.amounts.payCourt),
-        'totalExpense': Number(this.totalExpense)
-      }
-    }
+        players: Number(this.totalPlayer),
+        amountCock:
+          Number(this.totalCock) * Number(this.amounts.cockPricePerPiece),
+        donasi: Number(this.totalDonasi),
+        totalIncome: Number(this.totalIncome),
+        buyCock: Number(this.amounts.buyCock),
+        payCourt: Number(this.amounts.payCourt),
+        totalExpense: Number(this.totalExpense),
+      };
+    },
   },
-}
+};

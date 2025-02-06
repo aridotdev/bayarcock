@@ -2,11 +2,9 @@ import TheWelcome from "./TheWelcome.js";
 import TheMainApp from "./TheMainApp.js";
 import modal from "./modal.js";
 
-
 export default {
   components: { TheWelcome, TheMainApp, modal },
-  template: /*html*/`
-    
+  template: /*html*/ `
     <TheWelcome
       v-if="!isStart"
       @emitStartTheGame="startTheGame"
@@ -17,20 +15,17 @@ export default {
       @emitbackToHome="startTheGame" 
       @endTheGame="startTheGame"
     />
-
-    
   `,
 
   data() {
     return {
       isStart: false,
-      players: 0
     };
   },
 
   methods: {
     startTheGame() {
       this.isStart = !this.isStart;
-    }
+    },
   },
-}
+};

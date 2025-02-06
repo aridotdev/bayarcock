@@ -38,7 +38,7 @@ export default {
   props: {
     player: Object
   },
-
+  
   methods:{
     removePlayer() {
       this.$emit('emitRemovePlayer', this.player)
