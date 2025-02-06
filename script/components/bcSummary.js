@@ -1,8 +1,13 @@
 export default {
-  template: /*html*/`
+  template: /*html*/ `
     <section class="p-4 bg-blue-50 rounded">
       <div class="space-y-6">
-        <h3 class="font-bold text-xl">Rangkuman</h3>
+        <div class="flex justify-between">
+          <h3 class="font-bold text-xl">Rangkuman</h3>
+          <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center">
+            <img src="../../image/icon-download.svg">
+          </button>
+        </div>
         <div>
           <h4 class="font-bold">Pemasukan</h4>
           <ul class="border rounded-md p-4">
@@ -49,30 +54,29 @@ export default {
   `,
 
   props: {
-    summary: Object
+    summary: Object,
   },
 
   computed: {
     data() {
       return {
-        'amountCock': this.formattedNumber(this.summary.amountCock),
-        'donasi': this.formattedNumber(this.summary.donasi),
-        'totalIncome': this.formattedNumber(this.summary.totalIncome),
-        'buyCock': this.formattedNumber(this.summary.buyCock),
-        'payCourt': this.formattedNumber(this.summary.payCourt),
-        'totalExpense': this.formattedNumber(this.summary.totalExpense),
-      }
-    }
+        amountCock: this.formattedNumber(this.summary.amountCock),
+        donasi: this.formattedNumber(this.summary.donasi),
+        totalIncome: this.formattedNumber(this.summary.totalIncome),
+        buyCock: this.formattedNumber(this.summary.buyCock),
+        payCourt: this.formattedNumber(this.summary.payCourt),
+        totalExpense: this.formattedNumber(this.summary.totalExpense),
+      };
+    },
   },
 
   methods: {
     formattedNumber(number) {
-      return new Intl.NumberFormat('id-ID', 
-        { 
-          style: 'currency',
-          currency: 'IDR',
-          minimumFractionDigits: 0
-        }).format(number)
-    }
-  }
-}
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+      }).format(number);
+    },
+  },
+};
