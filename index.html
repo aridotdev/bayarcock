@@ -10,11 +10,13 @@
   </head>
   <body class="h-full">
     <div id="app" class="flex flex-col items-center m-4"></div>
-    <div id="modal"></div>  
-      <script type="module">
-        import App from './script/App.js'
-        
-        Vue.createApp(App).mount("#app");
-      </script>
+    <div id="modal"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <script type="module">
+      import App from "./script/App.js";
+
+      Vue.createApp(App).mount("#app");
+    </script>
   </body>
 </html>
