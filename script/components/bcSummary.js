@@ -1,10 +1,13 @@
 export default {
   template: /*html*/ `
-    <section class="p-4 bg-blue-50 rounded">
-      <div class="space-y-6">
+    <section class="p-4 bg-blue-50 rounded" id="summaryReport">
+      <div class="flex flex-col gap-4">
         <div class="flex justify-between">
           <h3 class="font-bold text-xl">Rangkuman</h3>
-          <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center">
+          <button 
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center"
+            @click.prevent="download()"
+            >
             <img src="./image/icon-download.svg"/>
           </button>
         </div>
@@ -31,7 +34,7 @@ export default {
           </ul>
         </div>
 
-        <div>
+        <div class="mb-4">
           <h4 class="font-bold">Pengeluaran</h4>
           <ul class="border rounded-md p-4">
             <li class="flex justify-between">
@@ -77,6 +80,14 @@ export default {
         currency: "IDR",
         minimumFractionDigits: 0,
       }).format(number);
+    },
+
+    download() {
+      let report = document.getElementById("summaryReport");
+
+      htmlToImage.toPng(report).then(function (dataUrl) {
+        download(dataUrl, "report.png");
+      });
     },
   },
 };
