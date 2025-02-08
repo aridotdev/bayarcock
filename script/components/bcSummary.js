@@ -5,7 +5,7 @@ export default {
         <div class="flex justify-between">
           <h3 class="font-bold text-xl">Rangkuman</h3>
           <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex gap-2 items-center">
-            <img src="../../image/icon-download.svg">
+            <img src="./image/icon-download.svg">
           </button>
         </div>
         <div>
