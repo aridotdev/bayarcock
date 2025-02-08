@@ -1,6 +1,6 @@
 export default {
   template: /*html*/ `
-		<div id="default-modal" tabindex="-1" aria-hidden="true" class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full bg-slate-100 bg-opacity-50 backdrop-blur-sm">
+		<div id="default-modal" tabindex="-1" aria-hidden="true" class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-slate-100 bg-opacity-50 backdrop-blur-sm">
 			<div class="bg-white rounded-md py-4 px-8 border-2 border-blue-500 space-y-6 text-xs">
 				<div class="flex flex-col justify-center items-center">
 					<img class="m-4" src="./image/icon-warning.svg" alt="icon warning ">
